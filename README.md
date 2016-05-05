@@ -14,12 +14,15 @@
     - [OOCSS and BEM](#oocss-and-bem)
     - [ID Selectors](#id-selectors)
     - [JavaScript hooks](#javascript-hooks)
+    - [Border](#border)
   1. [Sass](#sass)
     - [Syntax](#syntax)
     - [Ordering](#ordering-of-property-declarations)
+    - [Variables](#variables)
     - [Mixins](#mixins)
-    - [Placeholders](#placeholders)
+    - [Extend directive](#extend-directive)
     - [Nested selectors](#nested-selectors)
+  1. [Translation](#translation)
 
 ## Terminology
 
@@ -169,46 +172,53 @@ We recommend creating JavaScript-specific classes to bind to, prefixed with `.js
 <button class="btn btn-primary js-request-to-book">Request to Book</button>
 ```
 
+### Border
+
+Use `0` instead of `none` to specify that a style has no border.
+
+**Bad**
+
+```css
+.foo {
+  border: none;
+}
+```
+
+**Good**
+
+```css
+.foo {
+  border: 0;
+}
+```
+
 ## Sass
 
 ### Syntax
 
 * Use the `.scss` syntax, never the original `.sass` syntax
-* Order your `@extend`, regular CSS and `@include` declarations logically (see below)
+* Order your regular CSS and `@include` declarations logically (see below)
 
 ### Ordering of property declarations
 
-1. `@extend` declarations
+1. Property declarations
 
-    Just as in other OOP languages, it's helpful to know right away that this “class” inherits from another.
-
-    ```scss
-    .btn-green {
-      @extend %btn;
-      // ...
-    }
-    ```
-
-2. Property declarations
-
-    Now list all standard property declarations, anything that isn't an `@extend`, `@include`, or a nested selector.
+    List all standard property declarations, anything that isn't an `@include` or a nested selector.
 
     ```scss
     .btn-green {
-      @extend %btn;
       background: green;
       font-weight: bold;
       // ...
     }
     ```
 
-3. `@include` declarations
+2. `@include` declarations
 
-    Grouping `@include`s at the end makes it easier to read the entire selector, and it also visually separates them from `@extend`s.
+    Grouping `@include`s at the end makes it easier to read the entire selector.
 
     ```scss
     .btn-green {
-      @extend %btn;
       background: green;
       font-weight: bold;
       @include transition(background 0.5s ease);
@@ -216,13 +226,12 @@ We recommend creating JavaScript-specific classes to bind to, prefixed with `.js
     }
     ```
 
-4. Nested selectors
+3. Nested selectors
 
     Nested selectors, _if necessary_, go last, and nothing goes after them. Add whitespace between your rule declarations and nested selectors, as well as between adjacent nested selectors. Apply the same guidelines as above to your nested selectors.
 
     ```scss
     .btn {
-      @extend %btn;
       background: green;
       font-weight: bold;
       @include transition(background 0.5s ease);
@@ -233,51 +242,17 @@ We recommend creating JavaScript-specific classes to bind to, prefixed with `.js
     }
     ```
 
+### Variables
+
+Prefer dash-cased variable names (e.g. `$my-variable`) over camelCased or snake_cased variable names. It is acceptable to prefix variable names that are intended to be used only within the same file with an underscore (e.g. `$_my-variable`).
+
 ### Mixins
 
-Mixins, defined via `@mixin` and called with `@include`, should be used sparingly and only when function arguments are necessary. A mixin without function arguments (i.e. `@mixin hide { display: none; }`) is better accomplished using a placeholder selector (see below) in order to prevent code duplication.
+Mixins should be used to DRY up your code, add clarity, or abstract complexity--in much the same way as well-named functions. Mixins that accept no arguments can be useful for this, but note that if you are not compressing your payload (e.g. gzip), this may contribute to unnecessary code duplication in the resulting styles.
 
-### Placeholders
+### Extend directive
 
-Placeholders in Sass, defined via `%selector` and used with `@extend`, are a way of defining rule declarations that aren't automatically output in your compiled stylesheet. Instead, other selectors “inherit” from the placeholder, and the relevant selectors are copied to the point in the stylesheet where the placeholder is defined. This is best illustrated with the example below.
-
-Placeholders are powerful but easy to abuse, especially when combined with nested selectors. **As a rule of thumb, avoid creating placeholders with nested rule declarations, or calling `@extend` inside nested selectors.** Placeholders are great for simple inheritance, but can easily result in the accidental creation of additional selectors without paying close attention to how and where they are used.
-
-**Sass**
-
-```sass
-// Unless we call `@extend %icon` these properties won't be compiled!
-%icon {
-  font-family: "Airglyphs";
-}
-
-.icon-error {
-  @extend %icon;
-  color: red;
-}
-
-.icon-success {
-  @extend %icon;
-  color: green;
-}
-```
-
-**CSS**
-
-```css
-.icon-error,
-.icon-success {
-  font-family: "Airglyphs";
-}
-
-.icon-error {
-  color: red;
-}
-
-.icon-success {
-  color: green;
-}
-```
+`@extend` should be avoided because it has unintuitive and potentially dangerous behavior, especially when used with nested selectors. Even extending top-level placeholder selectors can cause problems if the order of selectors ends up changing later (e.g. if they are in other files and the order the files are loaded shifts). Gzipping should handle most of the savings you would have gained by using `@extend`, and you can DRY up your stylesheets nicely with mixins.
 
 ### Nested selectors
 
@@ -303,3 +278,9 @@ When selectors become this long, you're likely writing CSS that is:
 Again: **never nest ID selectors!**
 
 If you must use an ID selector in the first place (and you should really try not to), they should never be nested. If you find yourself doing this, you need to revisit your markup, or figure out why such strong specificity is needed. If you are writing well formed HTML and CSS, you should **never** need to do this.
+
+## Translation
+
+  This style guide is also available in other languages:
+  
+  - ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese (Simplified)**: [Zhangjd/css-style-guide](https://github.com/Zhangjd/css-style-guide)
