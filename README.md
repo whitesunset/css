@@ -1,34 +1,34 @@
-# Airbnb CSS / Sass Styleguide
+# Airbnb CSS / Sass руководство
 
-*A mostly reasonable approach to CSS and Sass*
+*Наиболее разумный подход к CSS и Sass*
 
-## Table of Contents
+## Содержание
 
-  1. [Terminology](#terminology)
-    - [Rule Declaration](#rule-declaration)
-    - [Selectors](#selectors)
-    - [Properties](#properties)
+  1. [Терминология](#terminology)
+    - [Объявление правил](#rule-declaration)
+    - [Селекторы](#selectors)
+    - [Свойства](#properties)
   1. [CSS](#css)
-    - [Formatting](#formatting)
-    - [Comments](#comments)
-    - [OOCSS and BEM](#oocss-and-bem)
-    - [ID Selectors](#id-selectors)
-    - [JavaScript hooks](#javascript-hooks)
-    - [Border](#border)
+    - [Форматирование](#formatting)
+    - [Комментарии](#comments)
+    - [OOCSS и BEM](#oocss-and-bem)
+    - [ID селекторы](#id-selectors)
+    - [JavaScript хуки](#javascript-hooks)
+    - [Границы](#border)
   1. [Sass](#sass)
-    - [Syntax](#syntax)
-    - [Ordering](#ordering-of-property-declarations)
-    - [Variables](#variables)
-    - [Mixins](#mixins)
-    - [Extend directive](#extend-directive)
-    - [Nested selectors](#nested-selectors)
-  1. [Translation](#translation)
+    - [Синтаксис](#syntax)
+    - [Порядок объявления ](#ordering-of-property-declarations)
+    - [Переменные](#variables)
+    - [Миксины](#mixins)
+    - [Использование extend](#extend-directive)
+    - [Вложенные селекторы](#nested-selectors)
+  1. [Перевод](#translation)
 
-## Terminology
+## Терминология
 
-### Rule declaration
+### Объявление правил
 
-A “rule declaration” is the name given to a selector (or a group of selectors) with an accompanying group of properties. Here's an example:
+“Правило” это сущность, которая состоит из селектора (или группы селекторов), с набором свойств внутри. Пример:
 
 ```css
 .listing {
@@ -37,9 +37,9 @@ A “rule declaration” is the name given to a selector (or a group of selector
 }
 ```
 
-### Selectors
+### Селекторы
 
-In a rule declaration, “selectors” are the bits that determine which elements in the DOM tree will be styled by the defined properties. Selectors can match HTML elements, as well as an element's class, ID, or any of its attributes. Here are some examples of selectors:
+Внутри правила, “селекторы” это идентификаторы, которые определяют, какие элементы DOM дерева будут оформлены с помощью определенных свойств. Селекторы могут соответствовать имени HTML элемента, а также классу элемента, ID или любому другому атрибуту. Вот примеры селекторов:
 
 ```css
 .my-element-class {
@@ -51,9 +51,9 @@ In a rule declaration, “selectors” are the bits that determine which element
 }
 ```
 
-### Properties
+### Свойства
 
-Finally, properties are what give the selected elements of a rule declaration their style. Properties are key-value pairs, and a rule declaration can contain one or more property declarations. Property declarations look like this:
+И наконец, "свойства" определяют стили для выбранных элементов. Свойство это пара ключ-значение, правило может содержать одно или более свойств. Объявление свойств выглядит так:
 
 ```css
 /* some selector */ {
@@ -64,18 +64,18 @@ Finally, properties are what give the selected elements of a rule declaration th
 
 ## CSS
 
-### Formatting
+### Форматирование
 
-* Use soft tabs (2 spaces) for indentation
-* Prefer dashes over camelCasing in class names. Underscores are OK if you're using BEM (see [OOCSS and BEM](#oocss-and-bem) below).
-* Do not use ID selectors
-* When using multiple selectors in a rule declaration, give each selector its own line.
-* Put a space before the opening brace `{` in rule declarations
-* In properties, put a space after, but not before, the `:` character.
-* Put closing braces `}` of rule declarations on a new line
-* Put blank lines between rule declarations
+* Используйте мягкую табуляцию (2 пробела) для отступов;
+* Предпочтительно использовать дефисы вместо camelCase в именах классов. Нижние подчеркивания тоже допустимы, если вы используете BEM (смотрите [OOCSS и BEM](#oocss-and-bem) ниже);
+* Не используйте ID селекторы;
+* При использовании нескольких селекторов в описании правила, переносите каждый селектор на новую линию;
+* Ставьте пробел перед открывающей фигурной скобкой `{` в описании правила;
+* В свойствах ставьте пробел после, а не перед символом двоеточия;
+* Переносите закрывающую фигурную скобку `}` на новую линию;
+* И не забывайте ставить пустую строку между правилами.
 
-**Bad**
+**Плохо**
 
 ```css
 .avatar{
@@ -89,7 +89,7 @@ Finally, properties are what give the selected elements of a rule declaration th
 }
 ```
 
-**Good**
+**Хорошо**
 
 ```css
 .avatar {
@@ -104,34 +104,34 @@ Finally, properties are what give the selected elements of a rule declaration th
 }
 ```
 
-### Comments
+### Комментарии
 
-* Prefer line comments (`//` in Sass-land) to block comments.
-* Prefer comments on their own line. Avoid end-of-line comments.
-* Write detailed comments for code that isn't self-documenting:
-  - Uses of z-index
-  - Compatibility or browser-specific hacks
+* Предпочтительно использовать линейные комментарии `//` вместо блочных;
+* Предпочтительно писать комментарии на отдельной строке. Избегайте комментариев в конце строки;
+* Пишите подробные комментарии для кода, который "не документирует сам себя". Например:
+  - Объясняйте необычное значение z-index;
+  - Описывайте совместимость или какой-то специфический хак для конкретного браузера.
 
-### OOCSS and BEM
+### OOCSS и BEM
 
-We encourage some combination of OOCSS and BEM for these reasons:
+Мы рекомендуем комбинировать подходы OOCSS и BEM по следующим причинам:
 
-  * It helps create clear, strict relationships between CSS and HTML
-  * It helps us create reusable, composable components
-  * It allows for less nesting and lower specificity
-  * It helps in building scalable stylesheets
+  * Это помогает создавать чистое и строгое соответствие между CSS и HTML;
+  * Это помогает создавать многократно используемые совместимые между собой компоненты;
+  * Это позволяет избавиться от глубокой вложенности и сложных приоритетов для селекторов;
+  * Это помогает создавать легко расширяемые таблицы стилей.
 
-**OOCSS**, or “Object Oriented CSS”, is an approach for writing CSS that encourages you to think about your stylesheets as a collection of “objects”: reusuable, repeatable snippets that can be used independently throughout a website.
+**OOCSS**, или “Объктно Ориентированный CSS”, это подход, который позволяет писать CSS, который в свою очередь побуждает вас думать о ваших стилях как о коллекции “объектов”: многократно используемых, повторяющихся кирпичиках, которые могут быть использованы независимо друг от друга на всем сайте.
 
-  * Nicole Sullivan's [OOCSS wiki](https://github.com/stubbornella/oocss/wiki)
-  * Smashing Magazine's [Introduction to OOCSS](http://www.smashingmagazine.com/2011/12/12/an-introduction-to-object-oriented-css-oocss/)
+  * Nicole Sullivan's [OOCSS Вики](https://github.com/stubbornella/oocss/wiki)
+  * Smashing Magazine's [Введение в OOCSS](http://www.smashingmagazine.com/2011/12/12/an-introduction-to-object-oriented-css-oocss/)
 
-**BEM**, or “Block-Element-Modifier”, is a _naming convention_ for classes in HTML and CSS. It was originally developed by Yandex with large codebases and scalability in mind, and can serve as a solid set of guidelines for implementing OOCSS.
+**BEM**, или “Блок-Элемент-Модификатор”, это _соглашении о именовании_ классов в HTML и CSS. Подход, созданный компанией Яндекс, имеет большой запас масштабируемости и его можно применять как набор правил для осуществления принципов OOCSS.
 
-  * CSS Trick's [BEM 101](https://css-tricks.com/bem-101/)
-  * Harry Roberts' [introduction to BEM](http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/)
+  * CSS трюки [BEM 101](https://css-tricks.com/bem-101/)
+  * Harry Roberts' [Введение в BEM](http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/)
 
-**Example**
+**Пример**
 
 ```html
 <article class="listing-card listing-card--featured">
@@ -152,31 +152,31 @@ We encourage some combination of OOCSS and BEM for these reasons:
 .listing-card__content { }
 ```
 
-  * `.listing-card` is the “block” and represents the higher-level component
-  * `.listing-card__title` is an “element” and represents a descendant of `.listing-card` that helps compose the block as a whole.
-  * `.listing-card--featured` is a “modifier” and represents a different state or variation on the `.listing-card` block.
+  * `.listing-card` это “блок” и представляет собой компонент высшего уровня;
+  * `.listing-card__title` это “элемент”, который является потомком `.listing-card` и помогает строить компонент в целом;
+  * `.listing-card--featured` это “модификатор” и представляет разные состояние или вариации блока `.listing-card` .
 
-### ID selectors
+### ID селекторы
 
-While it is possible to select elements by ID in CSS, it should generally be considered an anti-pattern. ID selectors introduce an unnecessarily high level of [specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity) to your rule declarations, and they are not reusable.
+В любой ситуации, когда появляется возможность выбрать элемент через ID в CSS, относитесь к этому как к анти-паттерну. ID селекторы добавляют излишне высокий [приоритет](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity) в вычислении очередности применения ваших правил и они к тому же не являются повторно используемыми.
 
-For more on this subject, read [CSS Wizardry's article](http://csswizardry.com/2014/07/hacks-for-dealing-with-specificity/) on dealing with specificity.
+Если вам интересно узнать, как правильно работать с приоритетами применения правил, прочтите [статью CSS Wizardry](http://csswizardry.com/2014/07/hacks-for-dealing-with-specificity/).
 
-### JavaScript hooks
+### JavaScript хуки
 
-Avoid binding to the same class in both your CSS and JavaScript. Conflating the two often leads to, at a minimum, time wasted during refactoring when a developer must cross-reference each class they are changing, and at its worst, developers being afraid to make changes for fear of breaking functionality.
+Избегайте привязывания CSS правил и JavaScript обработчиков на один класс. Игнорирование этого правила приводит как минимум к бесполезному рефакторингу, когда разработчик вынужден изменять все классы в CSS селекторах после того, как он изменил класс в JS обработчике. В худшем случае, разработчики будут вообще бояться изменить что-либо из-за страха сломать верстку.
 
-We recommend creating JavaScript-specific classes to bind to, prefixed with `.js-`:
+Мы рекомендуем добавлять специфические префиксы к классам для привязывания JS-обработчиков, например `.js-`:
 
 ```html
 <button class="btn btn-primary js-request-to-book">Request to Book</button>
 ```
 
-### Border
+### Границы
 
-Use `0` instead of `none` to specify that a style has no border.
+Используйте `0` вместо `none` чтобы указать элемент без границ.
 
-**Bad**
+**Плохо**
 
 ```css
 .foo {
@@ -184,7 +184,7 @@ Use `0` instead of `none` to specify that a style has no border.
 }
 ```
 
-**Good**
+**Хорошо**
 
 ```css
 .foo {
@@ -194,16 +194,16 @@ Use `0` instead of `none` to specify that a style has no border.
 
 ## Sass
 
-### Syntax
+### Синтаксис
 
-* Use the `.scss` syntax, never the original `.sass` syntax
-* Order your regular CSS and `@include` declarations logically (see below)
+* Используйте `.scss` синтаксис, вместо оригинального `.sass` синтаксиса
+* Выстраивайте CSS правила и внешние подключения `@include` логически (подробности ниже)
 
-### Ordering of property declarations
+### Порядок объявления
 
-1. Property declarations
+1.  Объявление свойств
 
-    List all standard property declarations, anything that isn't an `@include` or a nested selector.
+    Перечислите все свойства, которые не относятся к `@include` или вложенным селекторам
 
     ```scss
     .btn-green {
@@ -213,9 +213,9 @@ Use `0` instead of `none` to specify that a style has no border.
     }
     ```
 
-2. `@include` declarations
+2. Объявление `@include` 
 
-    Grouping `@include`s at the end makes it easier to read the entire selector.
+    Группировка `@include`-ов в конце делает правило более читаемым
 
     ```scss
     .btn-green {
@@ -226,9 +226,9 @@ Use `0` instead of `none` to specify that a style has no border.
     }
     ```
 
-3. Nested selectors
+3. Вложенные селекторы
 
-    Nested selectors, _if necessary_, go last, and nothing goes after them. Add whitespace between your rule declarations and nested selectors, as well as between adjacent nested selectors. Apply the same guidelines as above to your nested selectors.
+    Вложенные селекторы, _если они необходимы_, идут последними, после них ничего быть не должно. Добавляйте пустую строку между свойствами родительского селектора и вложенным селектором, так же как и между двумя вложенными селекторами. Применяйте такие же  правила и для всего, что касается вложенных селекторов.
 
     ```scss
     .btn {
@@ -242,21 +242,21 @@ Use `0` instead of `none` to specify that a style has no border.
     }
     ```
 
-### Variables
+### Переменные
 
-Prefer dash-cased variable names (e.g. `$my-variable`) over camelCased or snake_cased variable names. It is acceptable to prefix variable names that are intended to be used only within the same file with an underscore (e.g. `$_my-variable`).
+Предпочтительно использовать дефисы в именах переменных (например `$my-variable`), вместо CamelCase или snake_case. Допускается добавлять нижнее подчеркивание в качестве префикса для переменных, которые используются в пределах одного файла (например `$_my-variable`).
 
-### Mixins
+### Миксины
 
-Mixins should be used to DRY up your code, add clarity, or abstract complexity--in much the same way as well-named functions. Mixins that accept no arguments can be useful for this, but note that if you are not compressing your payload (e.g. gzip), this may contribute to unnecessary code duplication in the resulting styles.
+Миксины используются для того, чтобы сделать код чище, добавить в него ясности или некую абстракцию так же как это делают хорошо именованные функции. Миксины, которые не принимают никаких аргументов, могут быть полезны для этих целей, но помните, что если вы не используете компрессию (например gzip), это может привести к излишнему дублированию кода в скомпилированных CSS стилях.
 
-### Extend directive
+### Использование extend
 
-`@extend` should be avoided because it has unintuitive and potentially dangerous behavior, especially when used with nested selectors. Even extending top-level placeholder selectors can cause problems if the order of selectors ends up changing later (e.g. if they are in other files and the order the files are loaded shifts). Gzipping should handle most of the savings you would have gained by using `@extend`, and you can DRY up your stylesheets nicely with mixins.
+Следует избегать директивы `@extend`, потому что она имеет не интуитивное и потенциально опасное поведение, особенно при использовании совместно с вложенными селекторами. Даже расширение селекторов высшего уровня может принести проблемы, если порядок селекторов изменяется позже (например если они в другом файле и порядок подключения файлов вдруг изменился). Использование gzip позволяет получить большинство преимуществ, которые дает использование `@extend`, а сделать код более читаемым и чистым помогают миксины.
 
-### Nested selectors
+### Вложенные селекторы
 
-**Do not nest selectors more than three levels deep!**
+**Не вкладывайте селекторы более чем на три уровня!**
 
 ```scss
 .page-container {
@@ -268,19 +268,20 @@ Mixins should be used to DRY up your code, add clarity, or abstract complexity--
 }
 ```
 
-When selectors become this long, you're likely writing CSS that is:
+Когда селекторы достигают этой глубины, вы, скорее всего, пишете CSS, который:
 
-* Strongly coupled to the HTML (fragile) *—OR—*
-* Overly specific (powerful) *—OR—*
-* Not reusable
+* Сильно связан с HTML (слишком хрупкий) *—ИЛИ—*
+* Чрезмерно специфический (слишком монолитный) *—ИЛИ—*
+* Невозможно использовать повторно
 
 
-Again: **never nest ID selectors!**
+Еще раз: **никогда не используйте ID селекторы!**
 
-If you must use an ID selector in the first place (and you should really try not to), they should never be nested. If you find yourself doing this, you need to revisit your markup, or figure out why such strong specificity is needed. If you are writing well formed HTML and CSS, you should **never** need to do this.
+Если вам необходимо использовать ID селекторы, в первую очередь (уж постарайтесь), они не должны быть вложенными. Если вы обнаружили себя за использованием ID селекторов, вам надо переосмыслить вашу HTML разметку или подумать, зачем вам нужен такой мощный приоритет в вычислении очередности применения селекторов. Если вы пишете правильный HTML и CSS, вам **никогда** не придется их использовать.
 
-## Translation
+## Перевод
 
-  This style guide is also available in other languages:
+Это руководство также доступно на других языках:
   
   - ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese (Simplified)**: [Zhangjd/css-style-guide](https://github.com/Zhangjd/css-style-guide)
+  - ![en](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/United-Kingdom.png) **English**: [postlight/css](https://github.com/postlight/css)
